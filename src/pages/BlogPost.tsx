@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
+import ReadTimeTracker from "@/components/ReadTimeTracker";
 import { getPostBySlug, getRelatedPosts } from "@/data/blogData";
 
 const BlogPost = () => {
@@ -48,14 +49,14 @@ const BlogPost = () => {
               <div className="flex items-center text-gray-300 text-sm">
                 <span>{post.date}</span>
                 <span className="mx-2">•</span>
-                <span>{post.readTime}</span>
+                <ReadTimeTracker contentSelector=".blog-content" />
               </div>
             </div>
           </div>
 
           {/* Article Content */}
           <div className="bg-secondary rounded-lg p-8 mb-8 animate-fade-up">
-            <div className="prose prose-lg prose-invert max-w-none">
+            <div className="prose prose-lg prose-invert max-w-none blog-content">
               <p className="text-lg leading-relaxed mb-6">
                 {post.excerpt}
               </p>

@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
   return (
@@ -19,24 +20,24 @@ const Footer: React.FC = () => {
             <h4 className="text-white font-semibold mb-4">Categories</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/category/Entertainment" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Entertainment
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/category/Technology" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Technology
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/category/Lifestyle" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Lifestyle
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/category/Gaming" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Gaming
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -45,24 +46,24 @@ const Footer: React.FC = () => {
             <h4 className="text-white font-semibold mb-4">About</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/team" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Our Team
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/contact" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/privacy-policy" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground hover:text-blog-green transition-colors">
+                <Link to="/terms-of-service" className="text-muted-foreground hover:text-blog-green transition-colors">
                   Terms of Service
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -86,7 +87,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-muted mt-8 pt-8 text-center text-muted-foreground">
-          <p>© 2023 BlogPulse. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} BlogPulse. All rights reserved.</p>
         </div>
       </div>
     </footer>

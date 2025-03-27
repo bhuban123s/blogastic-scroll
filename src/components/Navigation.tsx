@@ -37,14 +37,17 @@ const Navigation: React.FC = () => {
             <Link to="/" className="text-white hover:text-blog-green transition-colors">
               Home
             </Link>
-            <Link to="/" className="text-white hover:text-blog-green transition-colors">
+            <Link to="/category/Entertainment" className="text-white hover:text-blog-green transition-colors">
               Entertainment
             </Link>
-            <Link to="/" className="text-white hover:text-blog-green transition-colors">
+            <Link to="/category/Technology" className="text-white hover:text-blog-green transition-colors">
               Technology
             </Link>
-            <Link to="/" className="text-white hover:text-blog-green transition-colors">
+            <Link to="/category/Lifestyle" className="text-white hover:text-blog-green transition-colors">
               Lifestyle
+            </Link>
+            <Link to="/category/Gaming" className="text-white hover:text-blog-green transition-colors">
+              Gaming
             </Link>
             <button className="text-white hover:text-blog-green transition-colors">
               <Search size={20} />
@@ -67,14 +70,17 @@ const Navigation: React.FC = () => {
               <Link to="/" className="text-white hover:text-blog-green transition-colors">
                 Home
               </Link>
-              <Link to="/" className="text-white hover:text-blog-green transition-colors">
+              <Link to="/category/Entertainment" className="text-white hover:text-blog-green transition-colors">
                 Entertainment
               </Link>
-              <Link to="/" className="text-white hover:text-blog-green transition-colors">
+              <Link to="/category/Technology" className="text-white hover:text-blog-green transition-colors">
                 Technology
               </Link>
-              <Link to="/" className="text-white hover:text-blog-green transition-colors">
+              <Link to="/category/Lifestyle" className="text-white hover:text-blog-green transition-colors">
                 Lifestyle
+              </Link>
+              <Link to="/category/Gaming" className="text-white hover:text-blog-green transition-colors">
+                Gaming
               </Link>
               <div className="relative mt-2">
                 <input
