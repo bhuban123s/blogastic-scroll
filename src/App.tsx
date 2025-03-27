@@ -12,6 +12,7 @@ import ContactUs from "./pages/ContactUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import CategoryPage from "./pages/CategoryPage";
+import ScrollToTopOnNavigation from "./components/ScrollToTopOnNavigation";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTopOnNavigation />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/post/:slug" element={<BlogPost />} />
