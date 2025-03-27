@@ -28,12 +28,13 @@ const ScrollToTop: React.FC = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 p-3 rounded-full bg-blog-green hover:bg-green-600 text-white shadow-lg transition-all duration-300 z-50 ${
+      className={`fixed bottom-24 right-8 p-3 rounded-full bg-blog-neon text-black shadow-neon transition-all duration-500 z-30 transform hover:rotate-180 ${
         isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
       }`}
       aria-label="Scroll to top"
     >
-      <ArrowUp size={20} />
+      <ArrowUp className="w-5 h-5" />
+      <div className="absolute inset-0 rounded-full bg-blog-neon animate-pulse-glow opacity-80"></div>
     </button>
   );
 };

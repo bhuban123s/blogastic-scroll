@@ -3,46 +3,48 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 7%;
+    --background: 0 0% 4%;
     --foreground: 0 0% 98%;
 
-    --card: 0 0% 9%;
+    --card: 0 0% 7%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 9%;
+    --popover: 0 0% 5%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 122 39% 49%;
+    --primary: 185 100% 50%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 12%;
+    --secondary: 0 0% 9%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 20%;
+    --muted: 0 0% 15%;
     --muted-foreground: 0 0% 70%;
 
-    --accent: 14 100% 57%;
+    --accent: 330 100% 50%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 28%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 20%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 8%;
+    --sidebar-background: 0 0% 4%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 122 39% 49%;
+    --sidebar-primary: 185 100% 50%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent: 0 0% 9%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 14 100% 57%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 330 100% 50%;
   }
 }
 
@@ -56,18 +58,18 @@
   }
 
   body {
-    @apply bg-blog-dark text-foreground antialiased;
+    @apply bg-blog-dark text-foreground antialiased font-sans;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 }
 
 @layer components {
   .blog-card {
-    @apply overflow-hidden transition-all duration-300 hover:shadow-lg;
+    @apply relative overflow-hidden transition-all duration-500 hover:shadow-neon hover:scale-105 bg-gradient-to-br from-blog-charcoal to-blog-darker border border-gray-800;
   }
   
   .blog-card:hover .blog-card-image {
-    @apply scale-105;
+    @apply scale-110;
   }
   
   .blog-card-image {
@@ -75,15 +77,39 @@
   }
   
   .blog-headline {
-    @apply font-bold leading-tight hover:text-blog-green transition-colors duration-300;
+    @apply font-bold leading-tight hover:text-blog-neon transition-colors duration-300 text-shadow-neon;
   }
   
   .section-title {
-    @apply text-xl md:text-2xl font-bold border-l-4 border-blog-green pl-3 mb-6;
+    @apply text-xl md:text-2xl font-bold text-blog-neon text-shadow-neon border-l-4 border-blog-neon pl-3 mb-6;
   }
   
   .read-more {
-    @apply text-sm text-blog-green hover:text-blog-accent transition-colors duration-300;
+    @apply text-sm text-blog-neon hover:text-blog-accent transition-colors duration-300 text-shadow-neon;
+  }
+
+  .neon-button {
+    @apply relative px-6 py-3 bg-transparent text-blog-neon border border-blog-neon rounded-md overflow-hidden transition-all duration-300 hover:text-black hover:bg-blog-neon hover:shadow-neon hover:scale-105;
+  }
+
+  .neon-button-pink {
+    @apply relative px-6 py-3 bg-transparent text-blog-accent border border-blog-accent rounded-md overflow-hidden transition-all duration-300 hover:text-black hover:bg-blog-accent hover:shadow-neon-pink hover:scale-105;
+  }
+
+  .neon-button-purple {
+    @apply relative px-6 py-3 bg-transparent text-blog-purple border border-blog-purple rounded-md overflow-hidden transition-all duration-300 hover:text-black hover:bg-blog-purple hover:shadow-neon-purple hover:scale-105;
+  }
+
+  .typewriter {
+    @apply overflow-hidden whitespace-nowrap border-r-4 border-blog-neon animate-typewriter;
+  }
+
+  .typewriter-cursor {
+    @apply border-r-4 border-blog-neon animate-blink;
+  }
+
+  .particle {
+    @apply absolute rounded-full bg-blog-neon opacity-30 animate-particles-move;
   }
 }
 
@@ -106,4 +132,20 @@
   .appear-animation > *:nth-child(8) { animation-delay: 0.8s; }
   .appear-animation > *:nth-child(9) { animation-delay: 0.9s; }
   .appear-animation > *:nth-child(10) { animation-delay: 1s; }
+
+  .animate-glow {
+    --glow-color: #00f0ff;
+    @apply animate-pulse-glow;
+  }
+
+  .animate-glow-pink {
+    --glow-color: #ff00aa;
+    @apply animate-pulse-glow;
+  }
+
+  .animate-glow-purple {
+    --glow-color: #8a2be2;
+    @apply animate-pulse-glow;
+  }
 }
+
