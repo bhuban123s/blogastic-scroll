@@ -11,7 +11,7 @@ const post: BlogPost = {
   image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
   readTime: "6 min read",
   featured: false,
-  featuredSize: "medium", // Added with appropriate type
+  featuredSize: "medium",
   createdAt: "2024-06-30"
 };
 

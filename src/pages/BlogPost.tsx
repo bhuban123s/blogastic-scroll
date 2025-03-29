@@ -60,25 +60,43 @@ const BlogPost = () => {
               <p className="text-lg leading-relaxed mb-6">
                 {post.excerpt}
               </p>
-              <p className="leading-relaxed mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at mauris massa. Suspendisse potenti. Aenean aliquet eu nisl vitae tempus. Donec euismod, est vel tincidunt dignissim, eros purus dapibus ligula, eu pulvinar dui dolor at urna.
-              </p>
-              <p className="leading-relaxed mb-6">
-                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas sit amet dignissim magna, sit amet placerat mauris. Integer vel facilisis arcu, eu consequat quam. Aenean porta tortor eget enim convallis, et ultricies leo aliquam.
-              </p>
-              <blockquote className="border-l-4 border-blog-green pl-4 italic my-8">
-                "Nullam sit amet magna risus. Maecenas commodo nisl id sem condimentum, vitae laoreet dui imperdiet. Duis lacinia, ex in interdum feugiat, metus eros faucibus diam, vitae vehicula nulla tellus vel nunc."
-              </blockquote>
-              <p className="leading-relaxed mb-6">
-                Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras eget scelerisque dui. Vivamus at nisi sit amet nisi pulvinar efficitur. Morbi sit amet magna at quam dapibus dictum id non nisl. Nam mattis ullamcorper urna, id vulputate sapien varius a.
-              </p>
-              <h2 className="text-xl font-bold mt-8 mb-4">Etiam consequat erat vel fermentum volutpat</h2>
-              <p className="leading-relaxed mb-6">
-                Nullam suscipit dui eu lectus facilisis, quis gravida nisi consectetur. Sed scelerisque massa at felis luctus, vitae fringilla lectus posuere. Duis non enim ac neque ultrices mollis. Aliquam vulputate velit ut ante tempor, quis luctus diam aliquam. Fusce pulvinar nunc at venenatis finibus.
-              </p>
-              <p className="leading-relaxed">
-                Vivamus vel tincidunt libero. Nam ullamcorper, tortor eget mattis imperdiet, magna orci convallis nisi, sed pulvinar lacus est at eros. Duis aliquet, odio vel fermentum tincidunt, metus risus imperdiet urna, quis dapibus nulla est et enim.
-              </p>
+              {/* Display the actual post content instead of lorem ipsum text */}
+              <div className="leading-relaxed">
+                {post.content.split('\n\n').map((paragraph, index) => {
+                  // Check if it's a heading (starts with # or ##)
+                  if (paragraph.startsWith('##')) {
+                    return <h2 key={index} className="text-xl font-bold mt-8 mb-4">{paragraph.replace('##', '').trim()}</h2>;
+                  } else if (paragraph.startsWith('#')) {
+                    return <h1 key={index} className="text-2xl font-bold mt-8 mb-4">{paragraph.replace('#', '').trim()}</h1>;
+                  } 
+                  // Check if it's a blockquote
+                  else if (paragraph.startsWith('>')) {
+                    return (
+                      <blockquote key={index} className="border-l-4 border-blog-green pl-4 italic my-8">
+                        {paragraph.replace('>', '').trim()}
+                      </blockquote>
+                    );
+                  }
+                  // Check if it's bold text
+                  else if (paragraph.includes('**')) {
+                    const parts = paragraph.split(/(\*\*.*?\*\*)/g);
+                    return (
+                      <p key={index} className="leading-relaxed mb-6">
+                        {parts.map((part, i) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={i}>{part.slice(2, -2)}</strong>;
+                          }
+                          return part;
+                        })}
+                      </p>
+                    );
+                  }
+                  // Regular paragraph
+                  else {
+                    return <p key={index} className="leading-relaxed mb-6">{paragraph}</p>;
+                  }
+                })}
+              </div>
             </div>
 
             {/* Tags */}
