@@ -1,3 +1,4 @@
+
 import post1 from "@/blogs/1";
 import post2 from "@/blogs/2";
 import post3 from "@/blogs/3";
@@ -136,7 +137,7 @@ export const blogPosts: BlogPost[] = [
     createdAt: "2025-03-28",
     readTime: "5 min read",
     featured: false,
-    featuredSize: "large",
+    featuredSize: "medium", // Changed from "large" to "medium" to match allowed types
   },
   {
     id: 16,
@@ -149,7 +150,7 @@ export const blogPosts: BlogPost[] = [
      createdAt: "2025-03-28",
     readTime: "6 min read",
     featured: false,
-    featuredSize: "large",
+    featuredSize: "medium", // Changed from "large" to "medium" to match allowed types
   },
 ];
 
