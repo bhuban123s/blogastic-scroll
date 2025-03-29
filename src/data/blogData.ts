@@ -74,13 +74,13 @@ export const getFeaturedPosts = (): BlogPost[] => {
   // If no large featured post exists, take the most recent featured post and make it large
   if (!largeFeaturedPost && allFeaturedPosts.length > 0) {
     // Create a copy of the first post with featuredSize set to "large"
-    largeFeaturedPost = { ...allFeaturedPosts[0], featuredSize: "large" };
+    largeFeaturedPost = { ...allFeaturedPosts[0], featuredSize: "large" as const };
   }
   
   // Get medium featured posts (limit to 5)
   const mediumFeaturedPosts = allFeaturedPosts
     .filter(post => post.id !== (largeFeaturedPost?.id || 0))
-    .map(post => ({ ...post, featuredSize: "medium" })) // Ensure they're all medium size
+    .map(post => ({ ...post, featuredSize: "medium" as const })) // Using "as const" to ensure correct type
     .slice(0, 5);
   
   // Combine large post with medium posts, ensuring we don't exceed 6 total

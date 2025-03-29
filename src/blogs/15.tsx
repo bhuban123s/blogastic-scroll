@@ -12,7 +12,7 @@ const post: BlogPost = {
   createdAt: "2025-03-28",
   readTime: "5 min read",
   featured: false,
-  featuredSize: "medium", // Properly typed as one of the allowed values
+  featuredSize: "medium", // Changed to explicit string literal type
 };
 
 export default post;
