@@ -6,7 +6,7 @@ import FeaturedPost from "@/components/FeaturedPost";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
 import { getFeaturedPosts, getPostsByCategory, getRecentPosts } from "@/data/blogData";
-import { ChevronRight, ChevronDown, VolumeUp, Volume2 } from "lucide-react";
+import { ChevronRight, ChevronDown, Volume, Volume2 } from "lucide-react";
 
 const Index = () => {
   const featuredPosts = getFeaturedPosts();
@@ -131,7 +131,7 @@ const Index = () => {
                   </>
                 ) : (
                   <>
-                    <VolumeUp className="mr-2 w-5 h-5" />
+                    <Volume className="mr-2 w-5 h-5" />
                     Listen to Intro
                   </>
                 )}
