@@ -76,8 +76,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
       <NewsletterPopup />
       
       {/* Night Mode Styles */}
-      <style>
-        {`
+      <style jsx global>{`
         .night-mode {
           --blog-neon-intensity: 0.7;
         }
@@ -96,8 +95,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
         .night-mode .text-shadow-neon-purple {
           filter: brightness(0.7);
         }
-        `}
-      </style>
+      `}</style>
     </div>
   );
 };

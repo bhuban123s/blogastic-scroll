@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
@@ -5,7 +6,7 @@ import FeaturedPost from "@/components/FeaturedPost";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
 import { getFeaturedPosts, getPostsByCategory, getRecentPosts } from "@/data/blogData";
-import { ChevronRight, ChevronDown, Volume, Volume2 } from "lucide-react";
+import { ChevronRight, ChevronDown, VolumeUp, Volume2 } from "lucide-react";
 
 const Index = () => {
   const featuredPosts = getFeaturedPosts();
@@ -22,6 +23,7 @@ const Index = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sectionsRef = useRef<HTMLDivElement[]>([]);
 
+  // Filter posts when tag changes
   useEffect(() => {
     if (activeTag === "All") {
       setFilteredPosts(recentPosts);
@@ -30,6 +32,7 @@ const Index = () => {
     }
   }, [activeTag]);
 
+  // Section animation with Intersection Observer
   useEffect(() => {
     const observerOptions = {
       root: null,
@@ -74,13 +77,17 @@ const Index = () => {
     }
   };
 
+  // Categories for the filter
   const categories = ["All", "Technology", "Entertainment", "Lifestyle", "Gaming"];
 
   return (
     <BlogLayout>
+      {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-32">
+        {/* Audio Narration */}
         <audio ref={audioRef} src="#" className="hidden" />
         
+        {/* Background Grid Lines */}
         <div className="absolute inset-0 grid grid-cols-6 pointer-events-none">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="h-full border-l border-gray-800"></div>
@@ -92,6 +99,7 @@ const Index = () => {
           ))}
         </div>
         
+        {/* Glow Effects */}
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blog-neon/20 rounded-full blur-[100px]"></div>
         <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-blog-accent/20 rounded-full blur-[100px]"></div>
         
@@ -123,7 +131,7 @@ const Index = () => {
                   </>
                 ) : (
                   <>
-                    <Volume className="mr-2 w-5 h-5" />
+                    <VolumeUp className="mr-2 w-5 h-5" />
                     Listen to Intro
                   </>
                 )}
@@ -135,6 +143,7 @@ const Index = () => {
             </div>
           </div>
           
+          {/* Featured Posts */}
           <div className="grid grid-cols-6 gap-4 appear-animation">
             {featuredPosts.map((post) => (
               <FeaturedPost
@@ -151,6 +160,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Filter Bar */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-8 opacity-0"
@@ -180,6 +190,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Entertainment Section */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-20 opacity-0"
@@ -201,6 +212,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Trending Section */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-20 opacity-0"
@@ -231,6 +243,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Movies Section */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-20 opacity-0"
@@ -258,11 +271,13 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Futuristic Quote Section */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-20 opacity-0"
       >
         <div className="relative py-16 px-8 glassmorphism overflow-hidden">
+          {/* Animated Glowing Orb */}
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-blog-neon/30 rounded-full blur-[60px] animate-pulse"></div>
           
           <div className="relative z-10 max-w-3xl mx-auto text-center">
@@ -274,6 +289,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Technology Section */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-20 opacity-0"
@@ -295,6 +311,7 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Filtered Posts Section */}
       <section 
         ref={addToRefs} 
         className="container mx-auto px-4 mt-20 mb-20 opacity-0"
