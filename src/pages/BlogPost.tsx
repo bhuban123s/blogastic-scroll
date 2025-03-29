@@ -47,7 +47,7 @@ const BlogPost = () => {
                 {post.title}
               </h1>
               <div className="flex items-center text-gray-300 text-sm">
-                <span>{post.date}</span>
+                <span>{post.createdAt}</span>
                 <span className="mx-2">•</span>
                 <ReadTimeTracker contentSelector=".blog-content" />
               </div>
@@ -131,7 +131,7 @@ const BlogPost = () => {
                   category={post.category}
                   title={post.title}
                   excerpt={post.excerpt}
-                  date={post.date}
+                  date={post.createdAt}
                   readTime={post.readTime}
                   slug={post.slug}
                 />

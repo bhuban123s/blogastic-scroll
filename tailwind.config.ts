@@ -64,13 +64,9 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				blog: {
-					dark: '#0a0a0a',
-					darker: '#050505',
-					neon: '#00f0ff',
-					accent: '#ff00aa',
-					purple: '#8a2be2',
-					charcoal: '#121212',
-					deepblack: '#000000',
+					dark: '#121212',
+					green: '#4caf50',
+					accent: '#ff5722'
 				}
 			},
 			borderRadius: {
@@ -114,51 +110,7 @@ export default {
 				'scale-in': {
 					'0%': { opacity: '0', transform: 'scale(0.95)' },
 					'100%': { opacity: '1', transform: 'scale(1)' }
-				},
-				'pulse-glow': {
-					'0%, 100%': { 
-						opacity: '1',
-						boxShadow: '0 0 10px 2px var(--glow-color, #00f0ff), 0 0 20px 4px var(--glow-color, #00f0ff)'
-					},
-					'50%': { 
-						opacity: '0.8',
-						boxShadow: '0 0 15px 3px var(--glow-color, #00f0ff), 0 0 30px 6px var(--glow-color, #00f0ff)'
-					},
-				},
-				'typewriter': {
-					'0%': { width: '0%' },
-					'100%': { width: '100%' },
-				},
-				'blink': {
-					'0%, 100%': { opacity: '1' },
-					'50%': { opacity: '0' },
-				},
-				'floating': {
-					'0%, 100%': { transform: 'translateY(0px)' },
-					'50%': { transform: 'translateY(-10px)' },
-				},
-				'pulse': {
-					'0%, 100%': { opacity: '1' },
-					'50%': { opacity: '0.7' },
-				},
-				'rotate-slow': {
-					'0%': { transform: 'rotate(0deg)' },
-					'100%': { transform: 'rotate(360deg)' },
-				},
-				'glitch': {
-					'0%, 100%': { transform: 'translate(0)' },
-					'20%': { transform: 'translate(-2px, 2px)' },
-					'40%': { transform: 'translate(-2px, -2px)' },
-					'60%': { transform: 'translate(2px, 2px)' },
-					'80%': { transform: 'translate(2px, -2px)' },
-				},
-				'particles-move': {
-					'0%': { transform: 'translateY(0) translateX(0)' },
-					'25%': { transform: 'translateY(-5px) translateX(5px)' },
-					'50%': { transform: 'translateY(-10px) translateX(0)' },
-					'75%': { transform: 'translateY(-5px) translateX(-5px)' },
-					'100%': { transform: 'translateY(0) translateX(0)' },
-				},
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -167,67 +119,9 @@ export default {
 				'fade-up': 'fade-up 0.5s ease-out forwards',
 				'fade-down': 'fade-down 0.5s ease-out forwards',
 				'fade-left': 'fade-left 0.5s ease-out forwards',
-				'scale-in': 'scale-in 0.3s ease-out forwards',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
-				'typewriter': 'typewriter 3s steps(40) forwards',
-				'blink': 'blink 0.7s infinite',
-				'floating': 'floating 3s ease-in-out infinite',
-				'pulse': 'pulse 2s ease-in-out infinite',
-				'rotate-slow': 'rotate-slow 10s linear infinite',
-				'glitch': 'glitch 0.5s ease-in-out infinite',
-				'particles-move': 'particles-move 5s ease-in-out infinite',
-			},
-			fontFamily: {
-				'sans': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-				'poppins': ['Poppins', 'sans-serif'],
-				'roboto': ['Roboto', 'sans-serif'],
-			},
-			boxShadow: {
-				'neon': '0 0 5px theme("colors.blog.neon"), 0 0 10px theme("colors.blog.neon")',
-				'neon-lg': '0 0 10px theme("colors.blog.neon"), 0 0 20px theme("colors.blog.neon"), 0 0 40px theme("colors.blog.neon")',
-				'neon-pink': '0 0 5px theme("colors.blog.accent"), 0 0 10px theme("colors.blog.accent")',
-				'neon-purple': '0 0 5px theme("colors.blog.purple"), 0 0 10px theme("colors.blog.purple")',
-			},
-			textShadow: {
-				'neon': '0 0 5px theme("colors.blog.neon"), 0 0 10px theme("colors.blog.neon")',
-				'neon-lg': '0 0 10px theme("colors.blog.neon"), 0 0 20px theme("colors.blog.neon"), 0 0 40px theme("colors.blog.neon")',
-				'neon-pink': '0 0 5px theme("colors.blog.accent"), 0 0 10px theme("colors.blog.accent")',
-				'neon-purple': '0 0 5px theme("colors.blog.purple"), 0 0 10px theme("colors.blog.purple")',
-			},
+				'scale-in': 'scale-in 0.3s ease-out forwards'
+			}
 		}
 	},
-	plugins: [
-		require("tailwindcss-animate"),
-		function ({ addUtilities }) {
-			const newUtilities = {
-				'.text-shadow-neon': {
-					textShadow: '0 0 5px #00f0ff, 0 0 10px #00f0ff',
-				},
-				'.text-shadow-neon-lg': {
-					textShadow: '0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 40px #00f0ff',
-				},
-				'.text-shadow-neon-pink': {
-					textShadow: '0 0 5px #ff00aa, 0 0 10px #ff00aa',
-				},
-				'.text-shadow-neon-purple': {
-					textShadow: '0 0 5px #8a2be2, 0 0 10px #8a2be2',
-				},
-				'.glassmorphism': {
-					backgroundColor: 'rgba(10, 10, 10, 0.5)',
-					backdropFilter: 'blur(10px)',
-					borderRadius: '10px',
-					border: '1px solid rgba(255, 255, 255, 0.1)',
-				},
-				'.scrollbar-hidden': {
-					'-ms-overflow-style': 'none',
-					'scrollbar-width': 'none',
-					'&::-webkit-scrollbar': {
-						display: 'none',
-					},
-				},
-			};
-			addUtilities(newUtilities);
-		},
-	],
+	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-
