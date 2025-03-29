@@ -1,10 +1,12 @@
 
 import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
 import FeaturedPost from "@/components/FeaturedPost";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
 import { getFeaturedPosts, getPostsByCategory, getRecentPosts } from "@/data/blogData";
+import { Volume } from "lucide-react";
 
 const Index = () => {
   const featuredPosts = getFeaturedPosts();
@@ -98,9 +100,9 @@ const Index = () => {
           <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="section-title mb-0">Trending Now</h2>
-              <a href="#" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+              <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
                 View All
-              </a>
+              </Link>
             </div>
             <div className="grid grid-cols-1 gap-4 appear-animation">
               {recentPosts.slice(0, 3).map((post) => (
@@ -127,9 +129,9 @@ const Index = () => {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="section-title mb-0">Latest Movies</h2>
-            <a href="#" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+            <Link to="/movies" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
               View All
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 appear-animation">
             {moviePosts.map((post) => (
@@ -176,9 +178,9 @@ const Index = () => {
         >
           <div className="flex items-center justify-between mb-6">
             <h2 className="section-title mb-0">More Articles</h2>
-            <a href="#" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+            <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
               View All
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-1 gap-4 appear-animation">
             {recentPosts.slice(3).map((post) => (

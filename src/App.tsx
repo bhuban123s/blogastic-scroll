@@ -1,3 +1,4 @@
+
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -16,6 +17,9 @@ const ContactUs = lazy(() => import("./pages/ContactUs"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/TermsOfService"));
 const CategoryPage = lazy(() => import("./pages/CategoryPage"));
+const SearchResults = lazy(() => import("./pages/SearchResults"));
+const TrendingBlogs = lazy(() => import("./pages/TrendingBlogs"));
+const MovieBlogs = lazy(() => import("./pages/MovieBlogs"));
 
 // Custom loading fallback
 const Loader = () => <div className="loading-spinner">Loading...</div>;
@@ -84,6 +88,30 @@ const App = () => (
             element={
               <Suspense fallback={<Loader />}>
                 <CategoryPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <Suspense fallback={<Loader />}>
+                <SearchResults />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/trending"
+            element={
+              <Suspense fallback={<Loader />}>
+                <TrendingBlogs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/movies"
+            element={
+              <Suspense fallback={<Loader />}>
+                <MovieBlogs />
               </Suspense>
             }
           />
