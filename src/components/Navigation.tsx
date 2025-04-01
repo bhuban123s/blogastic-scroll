@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Search } from "lucide-react";
 
@@ -18,7 +18,7 @@ const Navigation: React.FC = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -36,22 +36,21 @@ const Navigation: React.FC = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-blog-dark/95 backdrop-blur-sm shadow-md py-2"
-          : "bg-blog-dark py-4"
+          : "bg-blog-dark py-3 md:py-4"
       }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="flex items-center space-x-2 text-2xl font-bold text-white"
+            className="flex items-center space-x-2 text-xl md:text-2xl font-bold text-white"
           >
-            <img src="/favicon.ico" alt="Tonight Logo" className="w-8 h-8" />
+            <img src="/favicon.ico" alt="Tonight Logo" className="w-6 h-6 md:w-8 md:h-8" />
             <span className="font-mono font-bold">tonight</span>
-
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-4 lg:space-x-8">
             <Link
               to="/"
               className="text-white hover:text-white transition-colors"
@@ -88,11 +87,12 @@ const Navigation: React.FC = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-secondary p-2 rounded-md text-white w-36 focus:w-48 focus:outline-none focus:ring-1 focus:ring-white transition-all"
+                className="bg-secondary p-2 rounded-md text-white w-32 md:w-36 focus:w-48 focus:outline-none focus:ring-1 focus:ring-white transition-all"
               />
               <button
                 type="submit"
                 className="absolute right-3 top-2.5 text-muted-foreground"
+                aria-label="Search"
               >
                 <Search size={16} />
               </button>
@@ -164,6 +164,7 @@ const Navigation: React.FC = () => {
               <button
                 type="submit"
                 className="absolute right-3 top-2.5 text-muted-foreground"
+                aria-label="Search"
               >
                 <Search size={16} />
               </button>

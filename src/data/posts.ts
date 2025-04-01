@@ -5,10 +5,13 @@ import axios from "axios";
 
 const API_URL = "https://script.google.com/macros/s/AKfycbzf0VinqJxKhdytV0NwUtneq1l--weG_cTUkoR9tUMwgQ6uUdjH3b_Kj27qCBxLulgZWg/exec";
 
-// Add caching to improve load times
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+// Increase cache duration for better performance
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes in milliseconds
 let lastFetchTime = 0;
 let cachedData: BlogPost[] | null = null;
+
+// Add a request timeout and controller
+const FETCH_TIMEOUT = 8000; // 8 seconds timeout
 
 export type BlogPost = {
   id: number;
@@ -19,7 +22,7 @@ export type BlogPost = {
   content: string;
   image: string;
   createdAt: string;
-  authorName?: string; // Added authorName field
+  authorName?: string;
   readTime: string;
   time: string; // Time field for scheduling (format: "HH.MM")
   featured: boolean;
@@ -123,11 +126,15 @@ export const useBlogStore = create<BlogStore>()(
           
           // Use a timeout to abort long-running requests
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 15000);
+          const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
           
           const response = await axios.get(API_URL, {
             signal: controller.signal,
-            timeout: 15000
+            timeout: FETCH_TIMEOUT,
+            headers: {
+              // Add cache-control headers
+              'Cache-Control': 'max-age=600'
+            }
           });
           
           clearTimeout(timeoutId);
@@ -203,10 +210,10 @@ export const useBlogStore = create<BlogStore>()(
 
       startAutoFetch: () => {
         console.log("Starting auto-fetch interval");
-        // Reduced interval for more responsive updates
+        // Using a longer interval to reduce API calls and improve performance
         const interval = setInterval(() => {
           get().fetchPosts();
-        }, 30000); // Every 30 seconds
+        }, 60000); // Every 60 seconds
         
         return () => {
           console.log("Clearing auto-fetch interval");
