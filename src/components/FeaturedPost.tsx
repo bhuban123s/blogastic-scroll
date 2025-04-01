@@ -8,6 +8,7 @@ interface FeaturedPostProps {
   title: string;
   excerpt: string;
   slug: string;
+  date: string;
   size?: "large" | "medium" | "small";
 }
 
@@ -17,12 +18,13 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
   title,
   excerpt,
   slug,
+  date,
   size = "medium",
 }) => {
   const sizeClasses = {
-    large: "col-span-6 md:col-span-6 lg:col-span-4 md:row-span-2 h-[400px]",
-    medium: "col-span-6 md:col-span-3 lg:col-span-2 h-[250px]",
-    small: "col-span-6 md:col-span-3 lg:col-span-2 h-[250px]",
+    large: "col-span-6 md:col-span-6 lg:col-span-6 md:row-span-2 h-[400px] md:h-[500px]",
+    medium: "col-span-6 md:col-span-3 lg:col-span-2 h-[250px] md:h-[300px]",
+    small: "col-span-6 md:col-span-3 lg:col-span-2 h-[250px] md:h-[300px]",
   };
 
   const titleSizes = {
@@ -44,7 +46,7 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
           {category}
         </span>
         <Link to={`/post/${slug}`}>
-          <h2 className={`${titleSizes[size]} font-bold text-white text-shadow-lg mb-2 leading-tight hover:text-blog-accent transition-colors`}>
+          <h2 className={`${titleSizes[size]} font-bold text-white text-shadow-lg mb-2 leading-tight hover:text-blog-green transition-colors`}>
             {title}
           </h2>
         </Link>

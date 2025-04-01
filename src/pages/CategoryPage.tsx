@@ -1,18 +1,48 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
 import BlogCard from "@/components/BlogCard";
 import { getPostsByCategory } from "@/data/blogData";
+import { useBlogStore } from "@/data/posts";
 
 const CategoryPage = () => {
   const { category } = useParams<{ category: string }>();
+  const [isLoading, setIsLoading] = useState(true);
+  const storeLoading = useBlogStore(state => state.loading);
   
-  // Capitalize category for display
+  // Format category name for display (capitalize first letter)
   const displayCategory = category ? category.charAt(0).toUpperCase() + category.slice(1) : "";
   
-  // Get posts for the selected category
-  const categoryPosts = category ? getPostsByCategory(displayCategory) : [];
+  // Use state to store category posts
+  const [categoryPosts, setCategoryPosts] = useState([]);
+  
+  useEffect(() => {
+    // Wait for the blog store to finish loading
+    if (!storeLoading) {
+      console.log(`Loading posts for category: ${displayCategory}`);
+      
+      if (category) {
+        // Get posts for the current category
+        const posts = getPostsByCategory(displayCategory);
+        
+        // Update state with the fetched posts
+        setCategoryPosts(posts);
+        
+        // Log for debugging
+        console.log(`Found ${posts.length} posts for category: ${displayCategory}`);
+        
+        if (posts.length > 0) {
+          console.log("First few posts:");
+          posts.slice(0, 3).forEach(post => {
+            console.log(`- ${post.title} (ID: ${post.id}, Slug: ${post.slug})`);
+          });
+        }
+      }
+      
+      setIsLoading(false);
+    }
+  }, [category, displayCategory, storeLoading]);
 
   return (
     <BlogLayout>
@@ -23,7 +53,14 @@ const CategoryPage = () => {
             Explore the latest {displayCategory.toLowerCase()} news, trends, and featured stories.
           </p>
 
-          {categoryPosts.length > 0 ? (
+          {isLoading ? (
+            <div className="text-center py-16">
+              <h3 className="text-2xl font-medium mb-3">Loading posts...</h3>
+              <p className="text-muted-foreground">
+                Please wait while we fetch the latest posts.
+              </p>
+            </div>
+          ) : categoryPosts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {categoryPosts.map((post) => (
                 <BlogCard

@@ -5,16 +5,33 @@ import BlogLayout from "@/components/BlogLayout";
 import FeaturedPost from "@/components/FeaturedPost";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
-import { getFeaturedPosts, getPostsByCategory, getRecentPosts } from "@/data/blogData";
-import { Volume } from "lucide-react";
+import { getFeaturedPosts, getPostsByCategory, getRecentPosts} from "@/data/blogData";
 
 const Index = () => {
   const featuredPosts = getFeaturedPosts();
-  const entertainmentPosts = getPostsByCategory("Entertainment", 3);
-  const technologyPosts = getPostsByCategory("Technology", 3);
-  const moviePosts = getPostsByCategory("Movies", 4);
-  const recentPosts = getRecentPosts(6);
-
+  // Track IDs of posts that have been displayed to prevent repetition
+  const displayedPostIds = featuredPosts.map(post => post.id);
+   
+  // Get category posts excluding already displayed posts
+  const entertainmentPosts = getPostsByCategory("Entertainment", 4, displayedPostIds);
+  
+  // Update displayed posts IDs
+  entertainmentPosts.forEach(post => displayedPostIds.push(post.id));
+  
+  // Get more category posts excluding already displayed posts
+  const technologyPosts = getPostsByCategory("Technology", 4, displayedPostIds);
+  
+  // Update displayed posts IDs again
+  technologyPosts.forEach(post => displayedPostIds.push(post.id));
+  
+  // Get movie posts excluding already displayed posts
+  const moviePosts = getPostsByCategory("Movies", 4, displayedPostIds);
+  
+  // Update displayed posts IDs with movie posts
+  moviePosts.forEach(post => displayedPostIds.push(post.id));
+  
+  // Get recent posts that haven't been displayed yet
+  const recentPosts = getRecentPosts(6, displayedPostIds);
   const sectionsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
@@ -52,9 +69,9 @@ const Index = () => {
 
   return (
     <BlogLayout>
-      <div className="pt-20">
+      <div className="pt-16">
         {/* Hero Section */}
-        <section className="container mx-auto px-4 mt-8">
+        <section className="container mx-auto px-4 mt-4">
           <div className="grid grid-cols-6 gap-4 appear-animation">
             {featuredPosts.map((post) => (
               <FeaturedPost
@@ -64,6 +81,7 @@ const Index = () => {
                 title={post.title}
                 excerpt={post.excerpt}
                 slug={post.slug}
+                date={post.createdAt}
                 size={post.featuredSize}
               />
             ))}
@@ -73,10 +91,10 @@ const Index = () => {
         {/* Entertainment Section */}
         <section 
           ref={addToRefs} 
-          className="container mx-auto px-4 mt-20 opacity-0"
+          className="container mx-auto px-4 mt-12 opacity-0"
         >
           <h2 className="section-title">Entertainment</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 appear-animation">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 appear-animation">
             {entertainmentPosts.map((post) => (
               <BlogCard
                 key={post.id}
@@ -95,10 +113,10 @@ const Index = () => {
         {/* Trending Section */}
         <section 
           ref={addToRefs} 
-          className="container mx-auto px-4 mt-20 opacity-0"
+          className="container mx-auto px-4 mt-12 opacity-0"
         >
-          <div className="bg-secondary rounded-lg p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="bg-secondary rounded-lg p-4">
+            <div className="flex items-center justify-between mb-4">
               <h2 className="section-title mb-0">Trending Now</h2>
               <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
                 View All
@@ -125,15 +143,15 @@ const Index = () => {
         {/* Movies Section */}
         <section 
           ref={addToRefs} 
-          className="container mx-auto px-4 mt-20 opacity-0"
+          className="container mx-auto px-4 mt-12 opacity-0"
         >
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="section-title mb-0">Latest Movies</h2>
             <Link to="/movies" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
               View All
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 appear-animation">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 appear-animation">
             {moviePosts.map((post) => (
               <BlogCard
                 key={post.id}
@@ -152,10 +170,10 @@ const Index = () => {
         {/* Technology Section */}
         <section 
           ref={addToRefs} 
-          className="container mx-auto px-4 mt-20 opacity-0"
+          className="container mx-auto px-4 mt-12 opacity-0"
         >
           <h2 className="section-title">Technology</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 appear-animation">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 appear-animation">
             {technologyPosts.map((post) => (
               <BlogCard
                 key={post.id}
@@ -171,33 +189,35 @@ const Index = () => {
           </div>
         </section>
 
-        {/* More Articles Section */}
-        <section 
-          ref={addToRefs} 
-          className="container mx-auto px-4 mt-20 mb-20 opacity-0"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="section-title mb-0">More Articles</h2>
-            <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
-              View All
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 gap-4 appear-animation">
-            {recentPosts.slice(3).map((post) => (
-              <BlogCard
-                key={post.id}
-                image={post.image}
-                category={post.category}
-                title={post.title}
-                excerpt={post.excerpt}
-                date={post.createdAt}
-                readTime={post.readTime}
-                slug={post.slug}
-                layout="horizontal"
-              />
-            ))}
-          </div>
-        </section>
+        {/* More Articles Section - Only show if there are still posts to display */}
+        {recentPosts.slice(3).length > 0 && (
+          <section 
+            ref={addToRefs} 
+            className="container mx-auto px-4 mt-12 mb-16 opacity-0"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="section-title mb-0">More Articles</h2>
+              <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+                View All
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 gap-4 appear-animation">
+              {recentPosts.slice(3).map((post) => (
+                <BlogCard
+                  key={post.id}
+                  image={post.image}
+                  category={post.category}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  date={post.createdAt}
+                  readTime={post.readTime}
+                  slug={post.slug}
+                  layout="horizontal"
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
 
       <ScrollToTop />

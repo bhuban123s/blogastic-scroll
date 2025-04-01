@@ -1,115 +1,99 @@
 
-import post1 from "@/blogs/1";
-import post2 from "@/blogs/2";
-import post3 from "@/blogs/3";
-import post4 from "@/blogs/4";
-import post5 from "@/blogs/5";
-import post6 from "@/blogs/6";
-import post7 from "@/blogs/7";
-import post8 from "@/blogs/8";
-import post9 from "@/blogs/9";
-import post10 from "@/blogs/10";
-import post11 from "@/blogs/11";
-import post12 from "@/blogs/12";
-import post13 from "@/blogs/13";
-import post14 from "@/blogs/14";
-import post15 from "@/blogs/15";
-import post16 from "@/blogs/16";
+import { BlogPost, useBlogStore } from "./posts";
 
-// Blog data interface
-export interface BlogPost {
-  id: number;
-  slug: string;
-  title: string;
-  category: string;
-  excerpt: string;
-  content: string;
-  image: string;
-  createdAt: string;
-  readTime: string;
-  featured: boolean;
-  featuredSize?: "large" | "medium" | "small";
-}
-
-// Import all blog posts - organizing them in dedicated files
-export const blogPosts: BlogPost[] = [
-  post1,
-  post2,
-  post3,
-  post4,
-  post5,
-  post6,
-  post7,
-  post8,
-  post9,
-  post10,
-  post11,
-  post12,
-  post13,
-  post14,
-  post15,
-  post16
-];
-
-// Sorting by createdAt in descending order (newest first)
-export const sortBlogPosts = (posts: BlogPost[]): BlogPost[] => {
-  const now = new Date().getTime(); 
-
-  return [...posts]
-    .filter(post => post.createdAt && new Date(post.createdAt).getTime() <= now) 
-    .sort((a, b) => {
-      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return dateB - dateA; // Sort newest first
-    });
+// Get all published posts
+export const getPublishedPosts = (): BlogPost[] => {
+  return useBlogStore.getState().getPublishedPosts();
 };
 
-// Get featured posts ensuring we have the right sizes and limits
+// Sort posts by date (newest first)
+export const sortByDate = (posts: BlogPost[]): BlogPost[] => {
+  return [...posts].sort((a, b) => {
+    // Convert dates to timestamps for comparison
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    
+    // Sort descending (newest first)
+    return dateB - dateA;
+  });
+};
+
+// Get featured posts
 export const getFeaturedPosts = (): BlogPost[] => {
-  const allFeaturedPosts = sortBlogPosts(blogPosts.filter((post) => post.featured));
+  const posts = getPublishedPosts();
+  const featuredPosts = posts.filter(post => post.featured);
+  const sortedFeaturedPosts = sortByDate(featuredPosts);
   
-  // First, find the most recent large featured post
-  const largeFeaturedPost = allFeaturedPosts.find(post => post.featuredSize === "large");
+  // If no featured posts, return empty array
+  if (sortedFeaturedPosts.length === 0) {
+    return [];
+  }
   
-  // If no large featured post exists, take the most recent featured post and make it large
-  const mainFeaturedPost = largeFeaturedPost 
-    ? largeFeaturedPost 
-    : (allFeaturedPosts.length > 0 
-      ? { ...allFeaturedPosts[0], featuredSize: "large" as const } 
-      : null);
+  // Get the main featured post (newest)
+  const mainFeaturedPost = { 
+    ...sortedFeaturedPosts[0], 
+    featuredSize: "large" as const 
+  };
   
-  // Get medium featured posts (limit to 5)
-  const mediumFeaturedPosts = allFeaturedPosts
-    .filter(post => post.id !== (mainFeaturedPost?.id || 0))
-    .slice(0, 5)
+  // Get additional featured posts (skip the main one)
+  const additionalFeaturedPosts = sortedFeaturedPosts
+    .slice(1, 4)
     .map(post => ({ ...post, featuredSize: "medium" as const }));
   
-  // Combine large post with medium posts, ensuring we don't exceed 6 total
-  const result = mainFeaturedPost ? [mainFeaturedPost, ...mediumFeaturedPosts] : [...mediumFeaturedPosts];
+  return [mainFeaturedPost, ...additionalFeaturedPosts];
+};
+
+// Get posts by category
+export const getPostsByCategory = (category: string, limit?: number, excludeIds: number[] = []): BlogPost[] => {
+  const allPosts = getPublishedPosts();
   
-  // Limit to 6 total featured posts (1 large + 5 medium)
-  return result.slice(0, 6);
+  // Filter by category and exclude specified posts
+  const filteredPosts = allPosts.filter(post => 
+    post.category === category && !excludeIds.includes(post.id)
+  );
+  
+  // Sort by date and apply limit if specified
+  const sortedPosts = sortByDate(filteredPosts);
+  
+  console.log(`getPostsByCategory: Found ${filteredPosts.length} posts for category "${category}"`);
+  
+  return limit ? sortedPosts.slice(0, limit) : sortedPosts;
 };
 
-// Utility functions
-export const getRecentPosts = (count: number = 6): BlogPost[] => {
-  return sortBlogPosts(blogPosts).slice(0, count);
+// Get recent posts
+export const getRecentPosts = (limit: number = 6, excludeIds: number[] = []): BlogPost[] => {
+  const allPosts = getPublishedPosts();
+  
+  // Exclude specified posts
+  const filteredPosts = allPosts.filter(post => !excludeIds.includes(post.id));
+  
+  // Sort by date and apply limit
+  return sortByDate(filteredPosts).slice(0, limit);
 };
 
-export const getPostsByCategory = (category: string, count?: number): BlogPost[] => {
-  const filteredPosts = blogPosts.filter((post) => post.category === category);
-  return count ? sortBlogPosts(filteredPosts).slice(0, count) : sortBlogPosts(filteredPosts);
-};
-
-export const getRelatedPosts = (currentPostId: number, count: number = 3): BlogPost[] => {
-  const currentPost = blogPosts.find((post) => post.id === currentPostId);
+// Get related posts (same category as the current post)
+export const getRelatedPosts = (currentPostId: number, limit: number = 3): BlogPost[] => {
+  const allPosts = getPublishedPosts();
+  const currentPost = allPosts.find(post => post.id === currentPostId);
+  
   if (!currentPost) return [];
-
-  return sortBlogPosts(
-    blogPosts.filter((post) => post.id !== currentPostId && post.category === currentPost.category)
-  ).slice(0, count);
+  
+  // Filter posts in the same category, excluding the current post
+  const relatedPosts = allPosts.filter(post => 
+    post.id !== currentPostId && post.category === currentPost.category
+  );
+  
+  // Sort by date and apply limit
+  return sortByDate(relatedPosts).slice(0, limit);
 };
 
+// Get post by slug
 export const getPostBySlug = (slug: string): BlogPost | undefined => {
-  return blogPosts.find((post) => post.slug === slug);
+  const allPosts = getPublishedPosts();
+  return allPosts.find(post => post.slug === slug);
+};
+
+// Get posts for selected categories without repetition
+export const getPostsWithoutRepetition = (category: string, limit: number = 4, excludeIds: number[] = []): BlogPost[] => {
+  return getPostsByCategory(category, limit, excludeIds);
 };

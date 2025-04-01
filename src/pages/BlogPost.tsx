@@ -1,28 +1,52 @@
 
-import React, { useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
 import ReadTimeTracker from "@/components/ReadTimeTracker";
+import LoadingScreen from "@/components/LoadingScreen";
 import { getPostBySlug, getRelatedPosts } from "@/data/blogData";
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   
   const post = slug ? getPostBySlug(slug) : undefined;
   const relatedPosts = post ? getRelatedPosts(post.id, 3) : [];
 
   useEffect(() => {
+    // Log for debugging in production
+    console.log("BlogPost component mounted, slug:", slug);
+    console.log("Post found:", post ? "Yes" : "No");
+    
     if (!post) {
-      navigate("/not-found");
+      // Only navigate to not-found if we've finished the initial load
+      if (!loading) {
+        console.log("Post not found, navigating to 404 page");
+        navigate("/not-found");
+      }
+      return;
     }
     
     // Scroll to top when post loads
     window.scrollTo(0, 0);
-  }, [post, navigate]);
+    
+    // Simulate loading for better UX
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 800);
+    
+    return () => clearTimeout(timer);
+  }, [post, navigate, loading, slug]);
 
+  // Return early if post is undefined and we're still loading
+  if (loading) {
+    return <LoadingScreen message="Loading article..." />;
+  }
+
+  // Return null if post is undefined but we're not loading
   if (!post) {
     return null;
   }
@@ -60,43 +84,12 @@ const BlogPost = () => {
               <p className="text-lg leading-relaxed mb-6">
                 {post.excerpt}
               </p>
-              {/* Display the actual post content instead of lorem ipsum text */}
-              <div className="leading-relaxed">
-                {post.content.split('\n\n').map((paragraph, index) => {
-                  // Check if it's a heading (starts with # or ##)
-                  if (paragraph.startsWith('##')) {
-                    return <h2 key={index} className="text-xl font-bold mt-8 mb-4">{paragraph.replace('##', '').trim()}</h2>;
-                  } else if (paragraph.startsWith('#')) {
-                    return <h1 key={index} className="text-2xl font-bold mt-8 mb-4">{paragraph.replace('#', '').trim()}</h1>;
-                  } 
-                  // Check if it's a blockquote
-                  else if (paragraph.startsWith('>')) {
-                    return (
-                      <blockquote key={index} className="border-l-4 border-blog-green pl-4 italic my-8">
-                        {paragraph.replace('>', '').trim()}
-                      </blockquote>
-                    );
-                  }
-                  // Check if it's bold text
-                  else if (paragraph.includes('**')) {
-                    const parts = paragraph.split(/(\*\*.*?\*\*)/g);
-                    return (
-                      <p key={index} className="leading-relaxed mb-6">
-                        {parts.map((part, i) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={i}>{part.slice(2, -2)}</strong>;
-                          }
-                          return part;
-                        })}
-                      </p>
-                    );
-                  }
-                  // Regular paragraph
-                  else {
-                    return <p key={index} className="leading-relaxed mb-6">{paragraph}</p>;
-                  }
-                })}
-              </div>
+              
+              {/* Render the HTML content directly */}
+              <div 
+                className="blog-content-html" 
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              />
             </div>
 
             {/* Tags */}
