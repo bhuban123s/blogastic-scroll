@@ -12,49 +12,59 @@ const BlogProvider = () => {
   const [progress, setProgress] = useState(0);
   const [initialFetchDone, setInitialFetchDone] = useState(false);
 
+  // Use a more aggressive prefetching strategy
   useEffect(() => {
-    fetchPosts(); // Ensure data loads initially
-  }, [fetchPosts]);
-  
-  useEffect(() => {
-    // Start progress animation
+    let isMounted = true;
+    
+    // Start progress animation more quickly
     const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 90) {
-          clearInterval(progressInterval);
-          return 90; // Cap at 90% until actual loading completes
-        }
-        return prev + 10;
-      });
-    }, 200);
+      if (isMounted) {
+        setProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90; // Cap at 90% until actual loading completes
+          }
+          return prev + 15; // Increase faster
+        });
+      }
+    }, 100); // More frequent updates
   
-    // Fetch posts without async/await
+    // Immediately start fetching
+    console.log("Initial fetch started in BlogProvider");
     fetchPosts()
       .then(() => {
-        setInitialFetchDone(true);
-  
-        // Add a console log to verify data loading in production
-        console.log("Blog posts loaded successfully in BlogProvider");
+        if (isMounted) {
+          console.log("Initial fetch completed successfully");
+          setInitialFetchDone(true);
+          setProgress(100);
+        }
       })
       .catch(err => {
-        console.error("Error in BlogProvider:", err);
+        console.error("Error in initial data fetch:", err);
+        if (isMounted) {
+          toast.error("Failed to load content. Retrying...");
+          // Retry once on failure
+          return fetchPosts();
+        }
       })
       .finally(() => {
-        // Complete progress and clear interval
-        clearInterval(progressInterval);
-        setProgress(100);
+        if (isMounted) {
+          clearInterval(progressInterval);
+          setProgress(100);
+        }
       });
   
-    const stopAutoFetch = startAutoFetch(); // Start auto-fetching
+    const stopAutoFetch = startAutoFetch(); // Start auto-fetching with optimized interval
     
     return () => {
-      stopAutoFetch(); // Cleanup on unmount
+      isMounted = false;
+      clearInterval(progressInterval);
+      stopAutoFetch();
     };
   }, [fetchPosts, startAutoFetch]);
-  
 
   // Show loading screen during initial load
-  if (loading && !initialFetchDone && progress < 100) {
+  if (loading && !initialFetchDone) {
     return <LoadingScreen message="Loading blog content..." progress={progress} />;
   }
 

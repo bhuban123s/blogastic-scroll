@@ -1,73 +1,86 @@
 
-import { BlogPost, useBlogStore } from "./posts";
+import { BlogPost, useBlogStore, shouldDisplayPost } from "./posts";
 
-// Get all published posts
+// Get all published posts with proper sorting
 export const getPublishedPosts = (): BlogPost[] => {
   return useBlogStore.getState().getPublishedPosts();
 };
 
-// Sort posts by date (newest first)
+// Sort posts by date (newest first) and then by ID for consistent ordering
 export const sortByDate = (posts: BlogPost[]): BlogPost[] => {
   return [...posts].sort((a, b) => {
     // Convert dates to timestamps for comparison
     const dateA = new Date(a.createdAt).getTime();
     const dateB = new Date(b.createdAt).getTime();
     
+    // If dates are identical, use ID as secondary sort (higher ID = newer)
+    if (dateA === dateB) {
+      return b.id - a.id;
+    }
+    
     // Sort descending (newest first)
     return dateB - dateA;
   });
 };
 
-// Get featured posts
+// Get featured posts with improved size assignment
 export const getFeaturedPosts = (): BlogPost[] => {
   const posts = getPublishedPosts();
   const featuredPosts = posts.filter(post => post.featured);
-  const sortedFeaturedPosts = sortByDate(featuredPosts);
   
   // If no featured posts, return empty array
-  if (sortedFeaturedPosts.length === 0) {
+  if (featuredPosts.length === 0) {
     return [];
   }
   
-  // Get the main featured post (newest)
-  const mainFeaturedPost = { 
-    ...sortedFeaturedPosts[0], 
-    featuredSize: "large" as const 
-  };
+  // Sort featured posts by date and ID
+  const sortedFeaturedPosts = sortByDate(featuredPosts);
   
-  // Get additional featured posts (skip the main one)
-  const additionalFeaturedPosts = sortedFeaturedPosts
+  // Assign sizes properly with typesafe assignments
+  // Get the main featured post (newest)
+  const mainFeaturedPost = sortedFeaturedPosts.length > 0 
+    ? { ...sortedFeaturedPosts[0], featuredSize: "large" as const }
+    : null;
+  
+  // Get secondary featured posts
+  const secondaryFeaturedPosts = sortedFeaturedPosts
     .slice(1, 4)
     .map(post => ({ ...post, featuredSize: "medium" as const }));
   
-  return [mainFeaturedPost, ...additionalFeaturedPosts];
+  return mainFeaturedPost 
+    ? [mainFeaturedPost, ...secondaryFeaturedPosts] 
+    : secondaryFeaturedPosts;
 };
 
-// Get posts by category
+// Get posts by category with improved performance
 export const getPostsByCategory = (category: string, limit?: number, excludeIds: number[] = []): BlogPost[] => {
   const allPosts = getPublishedPosts();
   
+  // Use a Set for faster exclusion lookups
+  const excludeIdsSet = new Set(excludeIds);
+  
   // Filter by category and exclude specified posts
   const filteredPosts = allPosts.filter(post => 
-    post.category === category && !excludeIds.includes(post.id)
+    post.category === category && !excludeIdsSet.has(post.id)
   );
   
-  // Sort by date and apply limit if specified
+  // Sort posts and apply limit
   const sortedPosts = sortByDate(filteredPosts);
-  
-  console.log(`getPostsByCategory: Found ${filteredPosts.length} posts for category "${category}"`);
   
   return limit ? sortedPosts.slice(0, limit) : sortedPosts;
 };
 
-// Get recent posts
+// Get recent posts with improved performance
 export const getRecentPosts = (limit: number = 6, excludeIds: number[] = []): BlogPost[] => {
   const allPosts = getPublishedPosts();
   
-  // Exclude specified posts
-  const filteredPosts = allPosts.filter(post => !excludeIds.includes(post.id));
+  // Use a Set for faster exclusion lookups
+  const excludeIdsSet = new Set(excludeIds);
   
-  // Sort by date and apply limit
+  // Filter out excluded posts
+  const filteredPosts = allPosts.filter(post => !excludeIdsSet.has(post.id));
+  
+  // Return sorted and limited posts
   return sortByDate(filteredPosts).slice(0, limit);
 };
 
@@ -87,8 +100,10 @@ export const getRelatedPosts = (currentPostId: number, limit: number = 3): BlogP
   return sortByDate(relatedPosts).slice(0, limit);
 };
 
-// Get post by slug
+// Find post by slug with improved error handling
 export const getPostBySlug = (slug: string): BlogPost | undefined => {
+  if (!slug) return undefined;
+  
   const allPosts = getPublishedPosts();
   return allPosts.find(post => post.slug === slug);
 };

@@ -1,40 +1,70 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
 import FeaturedPost from "@/components/FeaturedPost";
 import BlogCard from "@/components/BlogCard";
 import ScrollToTop from "@/components/ScrollToTop";
 import { getFeaturedPosts, getPostsByCategory, getRecentPosts} from "@/data/blogData";
+import { toast } from "sonner";
 
 const Index = () => {
-  const featuredPosts = getFeaturedPosts();
-  // Track IDs of posts that have been displayed to prevent repetition
-  const displayedPostIds = featuredPosts.map(post => post.id);
-   
-  // Get category posts excluding already displayed posts
-  const entertainmentPosts = getPostsByCategory("Entertainment", 4, displayedPostIds);
+  const [isLoaded, setIsLoaded] = useState(false);
   
-  // Update displayed posts IDs
-  entertainmentPosts.forEach(post => displayedPostIds.push(post.id));
+  // Memoize posts data using useState + useEffect to avoid recalculation on every render
+  const [postsData, setPostsData] = useState({
+    featuredPosts: [] as ReturnType<typeof getFeaturedPosts>,
+    entertainmentPosts: [] as ReturnType<typeof getPostsByCategory>,
+    technologyPosts: [] as ReturnType<typeof getPostsByCategory>,
+    moviePosts: [] as ReturnType<typeof getPostsByCategory>,
+    recentPosts: [] as ReturnType<typeof getRecentPosts>,
+  });
   
-  // Get more category posts excluding already displayed posts
-  const technologyPosts = getPostsByCategory("Technology", 4, displayedPostIds);
+  // Load data once on component mount
+  useEffect(() => {
+    try {
+      // Get featured posts
+      const featuredPosts = getFeaturedPosts();
+      
+      // Track displayed post IDs
+      const displayedPostIds = featuredPosts.map(post => post.id);
+      
+      // Get category posts excluding already displayed
+      const entertainmentPosts = getPostsByCategory("Entertainment", 4, displayedPostIds);
+      entertainmentPosts.forEach(post => displayedPostIds.push(post.id));
+      
+      const technologyPosts = getPostsByCategory("Technology", 4, displayedPostIds);
+      technologyPosts.forEach(post => displayedPostIds.push(post.id));
+      
+      const moviePosts = getPostsByCategory("Movies", 4, displayedPostIds);
+      moviePosts.forEach(post => displayedPostIds.push(post.id));
+      
+      // Get recent posts that haven't been displayed yet
+      const recentPosts = getRecentPosts(6, displayedPostIds);
+      
+      // Update state with all post data
+      setPostsData({
+        featuredPosts,
+        entertainmentPosts,
+        technologyPosts,
+        moviePosts,
+        recentPosts
+      });
+      
+      // Mark as loaded to enable animations
+      setIsLoaded(true);
+    } catch (error) {
+      console.error("Error loading posts data:", error);
+      toast.error("Failed to load some content. Please refresh the page.");
+    }
+  }, []);
   
-  // Update displayed posts IDs again
-  technologyPosts.forEach(post => displayedPostIds.push(post.id));
-  
-  // Get movie posts excluding already displayed posts
-  const moviePosts = getPostsByCategory("Movies", 4, displayedPostIds);
-  
-  // Update displayed posts IDs with movie posts
-  moviePosts.forEach(post => displayedPostIds.push(post.id));
-  
-  // Get recent posts that haven't been displayed yet
-  const recentPosts = getRecentPosts(6, displayedPostIds);
   const sectionsRef = useRef<HTMLDivElement[]>([]);
 
+  // Setup intersection observer for animations
   useEffect(() => {
+    if (!isLoaded) return;
+    
     const observerOptions = {
       root: null,
       rootMargin: "0px",
@@ -59,13 +89,15 @@ const Index = () => {
         if (section) observer.unobserve(section);
       });
     };
-  }, []);
+  }, [isLoaded]);
 
   const addToRefs = (el: HTMLDivElement) => {
     if (el && !sectionsRef.current.includes(el)) {
       sectionsRef.current.push(el);
     }
   };
+
+  const { featuredPosts, entertainmentPosts, technologyPosts, moviePosts, recentPosts } = postsData;
 
   return (
     <BlogLayout>
