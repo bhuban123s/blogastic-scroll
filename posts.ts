@@ -1,3 +1,4 @@
+
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import axios from "axios";
@@ -17,6 +18,7 @@ export type BlogPost = {
   time: string;
   featured: boolean;
   featuredSize?: "large" | "medium" | "small";
+  authorName?: string;
 };
 
 type BlogStore = {
@@ -59,5 +61,3 @@ export const useBlogStore = create<BlogStore>()(
     }
   )
 );
-
-

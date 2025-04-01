@@ -44,7 +44,7 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
       />
       <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 z-20">
-        <span className="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-white text-black">
+        <span className="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-amoled-dark text-white">
           {category}
         </span>
         <Link to={`/post/${slug}`}>

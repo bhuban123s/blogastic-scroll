@@ -48,7 +48,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         } flex flex-col h-full`}
       >
         <div className="flex items-center justify-between text-xs mb-2">
-          <span className="px-2 py-1 rounded bg-white text-black font-medium">
+          <span className="px-2 py-1 rounded bg-amoled-dark text-white font-medium">
             {category}
           </span>
           <div className="text-muted-foreground flex items-center">

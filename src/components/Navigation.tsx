@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Search } from "lucide-react";
@@ -53,31 +54,31 @@ const Navigation: React.FC = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
             >
               Home
             </Link>
             <Link
               to="/category/Entertainment"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
             >
               Entertainment
             </Link>
             <Link
               to="/category/Technology"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
             >
               Technology
             </Link>
             <Link
               to="/category/Lifestyle"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
             >
               Lifestyle
             </Link>
             <Link
               to="/category/Gaming"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
             >
               Gaming
             </Link>
@@ -87,7 +88,7 @@ const Navigation: React.FC = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-secondary p-2 rounded-md text-white w-36 focus:w-48 focus:outline-none focus:ring-1 focus:ring-blog-green transition-all"
+                className="bg-secondary p-2 rounded-md text-white w-36 focus:w-48 focus:outline-none focus:ring-1 focus:ring-white transition-all"
               />
               <button
                 type="submit"
@@ -119,35 +120,35 @@ const Navigation: React.FC = () => {
           <div className="flex flex-col space-y-4">
             <Link
               to="/"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/category/Entertainment"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Entertainment
             </Link>
             <Link
               to="/category/Technology"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Technology
             </Link>
             <Link
               to="/category/Lifestyle"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Lifestyle
             </Link>
             <Link
               to="/category/Gaming"
-              className="text-white hover:text-blog-green transition-colors"
+              className="text-white hover:text-white transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Gaming
@@ -158,7 +159,7 @@ const Navigation: React.FC = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-secondary p-2 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-blog-green"
+                className="w-full bg-secondary p-2 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-white"
               />
               <button
                 type="submit"

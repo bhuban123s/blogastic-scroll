@@ -151,11 +151,11 @@ const Index = () => {
           <div className="bg-secondary rounded-lg p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="section-title mb-0">Trending Now</h2>
-              <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+              <Link to="/trending" className="text-white hover:text-white/80 transition-colors text-sm font-medium">
                 View All
               </Link>
             </div>
-            <div className="grid grid-cols-1 gap-4 appear-animation">
+            <div className="grid grid-cols-1 gap-6 appear-animation">
               {recentPosts.slice(0, 3).map((post) => (
                 <BlogCard
                   key={post.id}
@@ -180,7 +180,7 @@ const Index = () => {
         >
           <div className="flex items-center justify-between mb-4">
             <h2 className="section-title mb-0">Latest Movies</h2>
-            <Link to="/movies" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+            <Link to="/movies" className="text-white hover:text-white/80 transition-colors text-sm font-medium">
               View All
             </Link>
           </div>
@@ -230,11 +230,11 @@ const Index = () => {
           >
             <div className="flex items-center justify-between mb-4">
               <h2 className="section-title mb-0">More Articles</h2>
-              <Link to="/trending" className="text-blog-green hover:text-blog-accent transition-colors text-sm font-medium">
+              <Link to="/trending" className="text-white hover:text-white/80 transition-colors text-sm font-medium">
                 View All
               </Link>
             </div>
-            <div className="grid grid-cols-1 gap-4 appear-animation">
+            <div className="grid grid-cols-1 gap-6 appear-animation">
               {recentPosts.slice(3).map((post) => (
                 <BlogCard
                   key={post.id}

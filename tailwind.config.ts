@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -70,7 +71,7 @@ export default {
 				// New AMOLED optimized colors
 				amoled: {
 					black: '#000000',
-					dark: '#0A0A0A',
+					dark: '#222222',
 					card: '#121212',
 					border: '#222222'
 				}

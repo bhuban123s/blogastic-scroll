@@ -27,7 +27,7 @@ const TrendingBlogs = () => {
             <h1 className="text-4xl font-bold">Trending Now</h1>
             <button 
               onClick={() => navigate(-1)} 
-              className="text-blog-green hover:text-blog-accent transition-colors"
+              className="text-white hover:text-white/80 transition-colors"
             >
               &larr; Back
             </button>
@@ -42,7 +42,7 @@ const TrendingBlogs = () => {
                 title={post.title}
                 excerpt={post.excerpt}
                 date={post.createdAt}
-                readTime={post.readTime}
+                authorName={post.authorName}
                 slug={post.slug}
                 layout="horizontal"
               />
@@ -53,7 +53,7 @@ const TrendingBlogs = () => {
             <div className="flex justify-center mt-10">
               <button
                 onClick={handleLoadMore}
-                className="px-6 py-3 bg-blog-green hover:bg-green-600 text-white font-medium rounded-md transition-colors"
+                className="px-6 py-3 bg-white hover:bg-white/80 text-black font-medium rounded-md transition-colors"
               >
                 Load More
               </button>

@@ -70,7 +70,7 @@ const CategoryPage = () => {
                   title={post.title}
                   excerpt={post.excerpt}
                   date={post.createdAt}
-                  readTime={post.readTime}
+                  authorName={post.authorName}
                   slug={post.slug}
                 />
               ))}
@@ -83,7 +83,7 @@ const CategoryPage = () => {
               </p>
               <Link
                 to="/"
-                className="inline-block mt-8 px-6 py-3 bg-blog-green hover:bg-green-600 text-white font-medium rounded-md transition-colors"
+                className="inline-block mt-8 px-6 py-3 bg-white hover:bg-white/80 text-black font-medium rounded-md transition-colors"
               >
                 Return to Homepage
               </Link>
