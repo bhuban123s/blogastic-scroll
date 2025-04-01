@@ -64,9 +64,16 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				blog: {
-					dark: '#121212',
+					dark: '#000000', // Changed to pure black for AMOLED
 					green: '#4caf50',
 					accent: '#ff5722'
+				},
+				// New AMOLED optimized colors
+				amoled: {
+					black: '#000000',
+					dark: '#0A0A0A',
+					card: '#121212',
+					border: '#222222'
 				}
 			},
 			borderRadius: {
