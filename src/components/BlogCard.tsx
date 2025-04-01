@@ -8,7 +8,7 @@ interface BlogCardProps {
   title: string;
   excerpt: string;
   date: string;
-  authorName?: string; // Changed from readTime to authorName
+  authorName?: string;
   slug: string;
   layout?: "horizontal" | "vertical";
 }
@@ -48,7 +48,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         } flex flex-col h-full`}
       >
         <div className="flex items-center justify-between text-xs mb-2">
-          <span className="px-2 py-1 rounded bg-blog-green text-white font-medium">
+          <span className="px-2 py-1 rounded bg-white text-black font-medium">
             {category}
           </span>
           <div className="text-muted-foreground flex items-center">
@@ -62,10 +62,10 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </div>
         </div>
         <Link to={`/post/${slug}`} className="flex-grow">
-          <h3 className="blog-headline text-lg md:text-xl mb-2 hover:text-blog-green transition-colors">{title}</h3>
+          <h3 className="blog-headline text-lg md:text-xl mb-2 hover:text-white transition-colors">{title}</h3>
         </Link>
         <p className="text-muted-foreground text-sm line-clamp-2 mb-3">{excerpt}</p>
-        <Link to={`/post/${slug}`} className="read-more inline-flex items-center mt-auto text-blog-green hover:text-blog-accent transition-colors">
+        <Link to={`/post/${slug}`} className="read-more inline-flex items-center mt-auto text-white hover:text-white/80 transition-colors">
           Read More
           <svg
             xmlns="http://www.w3.org/2000/svg"

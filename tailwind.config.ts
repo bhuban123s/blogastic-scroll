@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -65,8 +64,8 @@ export default {
 				},
 				blog: {
 					dark: '#000000', // Changed to pure black for AMOLED
-					green: '#4caf50',
-					accent: '#ff5722'
+					green: '#FFFFFF', // Changed from green to white
+					accent: '#ffffff'  // Changed to white
 				},
 				// New AMOLED optimized colors
 				amoled: {

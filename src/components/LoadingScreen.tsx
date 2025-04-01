@@ -59,7 +59,7 @@ const LoadingScreen = ({
     >
       <div className="flex flex-col items-center gap-4 px-4 text-center">
         <div className="flex items-center justify-center rounded-full border border-gray-800 bg-black p-4 shadow-lg animate-pulse">
-          <LoadingIcon className="h-10 w-10 animate-spin text-blog-green" />
+          <LoadingIcon className="h-10 w-10 animate-spin text-white" />
         </div>
         
         <h2 className="text-xl font-medium text-white animate-fade-in">{message}</h2>
@@ -72,9 +72,9 @@ const LoadingScreen = ({
         )}
         
         <div className="mt-8 flex space-x-3 animate-fade-in delay-200">
-          <span className="h-2 w-2 rounded-full bg-blog-green animate-bounce"></span>
-          <span className="h-2 w-2 rounded-full bg-blog-green animate-bounce" style={{ animationDelay: "0.2s" }}></span>
-          <span className="h-2 w-2 rounded-full bg-blog-green animate-bounce" style={{ animationDelay: "0.4s" }}></span>
+          <span className="h-2 w-2 rounded-full bg-white animate-bounce"></span>
+          <span className="h-2 w-2 rounded-full bg-white animate-bounce" style={{ animationDelay: "0.2s" }}></span>
+          <span className="h-2 w-2 rounded-full bg-white animate-bounce" style={{ animationDelay: "0.4s" }}></span>
         </div>
       </div>
       
