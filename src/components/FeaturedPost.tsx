@@ -9,6 +9,7 @@ interface FeaturedPostProps {
   excerpt: string;
   slug: string;
   date: string;
+  authorName?: string; // Added author name
   size?: "large" | "medium" | "small";
 }
 
@@ -19,6 +20,7 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
   excerpt,
   slug,
   date,
+  authorName,
   size = "medium",
 }) => {
   const sizeClasses = {
@@ -53,7 +55,16 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({
         {size === "large" && (
           <p className="text-gray-200 text-sm md:text-base line-clamp-2 mb-2">{excerpt}</p>
         )}
-        <Link to={`/post/${slug}`} className="text-blog-green hover:text-blog-accent text-sm font-medium transition-colors inline-flex items-center">
+        <div className="flex items-center text-gray-300 text-xs">
+          <span>{date}</span>
+          {authorName && (
+            <>
+              <span className="mx-2">•</span>
+              <span>{authorName}</span>
+            </>
+          )}
+        </div>
+        <Link to={`/post/${slug}`} className="text-blog-green hover:text-blog-accent text-sm font-medium transition-colors inline-flex items-center mt-2">
           Read More
           <svg
             xmlns="http://www.w3.org/2000/svg"

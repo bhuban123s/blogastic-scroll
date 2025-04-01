@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import BlogLayout from "@/components/BlogLayout";
 import FeaturedPost from "@/components/FeaturedPost";
@@ -114,6 +114,7 @@ const Index = () => {
                 excerpt={post.excerpt}
                 slug={post.slug}
                 date={post.createdAt}
+                authorName={post.authorName}
                 size={post.featuredSize}
               />
             ))}
@@ -135,7 +136,7 @@ const Index = () => {
                 title={post.title}
                 excerpt={post.excerpt}
                 date={post.createdAt}
-                readTime={post.readTime}
+                authorName={post.authorName}
                 slug={post.slug}
               />
             ))}
@@ -163,7 +164,7 @@ const Index = () => {
                   title={post.title}
                   excerpt={post.excerpt}
                   date={post.createdAt}
-                  readTime={post.readTime}
+                  authorName={post.authorName}
                   slug={post.slug}
                   layout="horizontal"
                 />
@@ -192,7 +193,7 @@ const Index = () => {
                 title={post.title}
                 excerpt={post.excerpt}
                 date={post.createdAt}
-                readTime={post.readTime}
+                authorName={post.authorName}
                 slug={post.slug}
               />
             ))}
@@ -214,7 +215,7 @@ const Index = () => {
                 title={post.title}
                 excerpt={post.excerpt}
                 date={post.createdAt}
-                readTime={post.readTime}
+                authorName={post.authorName}
                 slug={post.slug}
               />
             ))}
@@ -242,7 +243,7 @@ const Index = () => {
                   title={post.title}
                   excerpt={post.excerpt}
                   date={post.createdAt}
-                  readTime={post.readTime}
+                  authorName={post.authorName}
                   slug={post.slug}
                   layout="horizontal"
                 />

@@ -19,6 +19,7 @@ export type BlogPost = {
   content: string;
   image: string;
   createdAt: string;
+  authorName?: string; // Added authorName field
   readTime: string;
   time: string; // Time field for scheduling (format: "HH.MM")
   featured: boolean;
@@ -143,20 +144,36 @@ export const useBlogStore = create<BlogStore>()(
             ...post,
             content: typeof post.content === 'string' ? post.content : '',
             // Ensure featuredSize is a valid value if present
-            featuredSize: post.featuredSize as "large" | "medium" | "small" | undefined
+            featuredSize: post.featuredSize as "large" | "medium" | "small" | undefined,
+            // Ensure authorName is properly handled
+            authorName: post.authorName || ''
           }));
           
-          // Sort posts by date (newest first) and ID for consistent ordering
+          // Sort posts by date (newest first), time, and ID for consistent ordering
           const sortedPosts = [...processedPosts].sort((a, b) => {
             const dateA = new Date(a.createdAt).getTime();
             const dateB = new Date(b.createdAt).getTime();
             
-            if (dateA === dateB) {
-              // If dates are equal, sort by ID (higher ID = newer post)
-              return b.id - a.id;
+            // First compare by date
+            if (dateA !== dateB) {
+              return dateB - dateA;
             }
             
-            return dateB - dateA;
+            // Then by time if available
+            if (a.time && b.time) {
+              const [hoursA, minutesA] = a.time.split('.').map(Number);
+              const [hoursB, minutesB] = b.time.split('.').map(Number);
+              
+              const timeA = hoursA * 60 + minutesA;
+              const timeB = hoursB * 60 + minutesB;
+              
+              if (timeA !== timeB) {
+                return timeB - timeA;
+              }
+            }
+            
+            // Finally by ID
+            return b.id - a.id;
           });
           
           // Update cache

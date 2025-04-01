@@ -8,7 +8,7 @@ interface BlogCardProps {
   title: string;
   excerpt: string;
   date: string;
-  readTime: string;
+  authorName?: string; // Changed from readTime to authorName
   slug: string;
   layout?: "horizontal" | "vertical";
 }
@@ -19,7 +19,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   title,
   excerpt,
   date,
-  readTime,
+  authorName,
   slug,
   layout = "vertical",
 }) => {
@@ -52,9 +52,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
             {category}
           </span>
           <div className="text-muted-foreground flex items-center">
-            <span>{date}</span>
-            <span className="mx-2">•</span>
-            <span>{readTime}</span>
+            {date}
+            {authorName && (
+              <>
+                <span className="mx-2">•</span>
+                <span>{authorName}</span>
+              </>
+            )}
           </div>
         </div>
         <Link to={`/post/${slug}`} className="flex-grow">

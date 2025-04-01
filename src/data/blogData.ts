@@ -1,25 +1,48 @@
 
 import { BlogPost, useBlogStore, shouldDisplayPost } from "./posts";
 
+// Re-export the BlogPost type so it can be used by other files
+export type { BlogPost } from "./posts";
+
 // Get all published posts with proper sorting
 export const getPublishedPosts = (): BlogPost[] => {
   return useBlogStore.getState().getPublishedPosts();
 };
 
-// Sort posts by date (newest first) and then by ID for consistent ordering
+// Improved sorting for posts by date, time, and ID
 export const sortByDate = (posts: BlogPost[]): BlogPost[] => {
   return [...posts].sort((a, b) => {
     // Convert dates to timestamps for comparison
     const dateA = new Date(a.createdAt).getTime();
     const dateB = new Date(b.createdAt).getTime();
     
-    // If dates are identical, use ID as secondary sort (higher ID = newer)
-    if (dateA === dateB) {
-      return b.id - a.id;
+    // First, compare by date
+    if (dateA !== dateB) {
+      // Sort descending (newest first)
+      return dateB - dateA;
     }
     
-    // Sort descending (newest first)
-    return dateB - dateA;
+    // If dates are identical, check time field
+    if (a.time && b.time) {
+      const [hoursA, minutesA] = a.time.split('.').map(Number);
+      const [hoursB, minutesB] = b.time.split('.').map(Number);
+      
+      const timeA = hoursA * 60 + minutesA;
+      const timeB = hoursB * 60 + minutesB;
+      
+      if (timeA !== timeB) {
+        // Later time (higher hours/minutes) should appear first
+        return timeB - timeA;
+      }
+    } else if (a.time && !b.time) {
+      return -1; // a has time, b doesn't, a comes first
+    } else if (!a.time && b.time) {
+      return 1; // b has time, a doesn't, b comes first
+    }
+    
+    // If time is also identical or not available, use ID as final tiebreaker
+    // Higher ID = newer post
+    return b.id - a.id;
   });
 };
 
@@ -33,7 +56,7 @@ export const getFeaturedPosts = (): BlogPost[] => {
     return [];
   }
   
-  // Sort featured posts by date and ID
+  // Sort featured posts by date, time, and ID
   const sortedFeaturedPosts = sortByDate(featuredPosts);
   
   // Assign sizes properly with typesafe assignments

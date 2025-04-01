@@ -72,7 +72,7 @@ const BlogPost = () => {
               alt={post.title}
               className="absolute w-full h-full object-cover"
               loading="eager" 
-              fetchpriority="high"
+              fetchPriority="high"
             />
             <div className="absolute bottom-0 left-0 p-6 z-20">
               <span className="inline-block px-3 py-1 text-sm font-semibold rounded bg-blog-green text-white mb-4">
@@ -83,8 +83,12 @@ const BlogPost = () => {
               </h1>
               <div className="flex items-center text-gray-300 text-sm">
                 <span>{post.createdAt}</span>
-                <span className="mx-2">•</span>
-                <ReadTimeTracker contentSelector=".blog-content" />
+                {post.authorName && (
+                  <>
+                    <span className="mx-2">•</span>
+                    <span>{post.authorName}</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -183,7 +187,7 @@ const BlogPost = () => {
                     title={post.title}
                     excerpt={post.excerpt}
                     date={post.createdAt}
-                    readTime={post.readTime}
+                    authorName={post.authorName}
                     slug={post.slug}
                   />
                 ))}
